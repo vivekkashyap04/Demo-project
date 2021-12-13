@@ -11,7 +11,7 @@ export default function Home() {
   const [todoArray, setTodoArray] = useState([]);
   useEffect(() => {
     setTodoArray(JSON.parse(localStorage.getItem("todo")));
-  },[])
+  },[todoArray])
   console.log(todoArray);
   return (
     <div>
@@ -24,6 +24,13 @@ export default function Home() {
       <Content style={{ margin: '24px 16px 0' }}>
         <div className="site-layout-background" style={{ padding: 24, minHeight: 760 }}>
           <Demo />
+          {todoArray.map((item,index) => {
+            return (
+            <div key={index}>
+              <h2>{item.todo.task}</h2>
+              </div>
+            )
+          })}
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
