@@ -114,3 +114,6 @@
     flex-direction: column;
   }
 }
+.header{
+  background-color: rgb(68, 152, 163);
+}
