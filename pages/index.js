@@ -7,7 +7,7 @@ import Head from "next/head";
 import { Layout } from 'antd';
 
 export default function Home() {
-  const {  Footer, Sider, Content } = Layout;
+  const {  Footer, Content } = Layout;
   const [todoArray, setTodoArray] = useState([]);
   const [input, setInput] = useState("");
   const [filter, setFilter] = useState("All");
@@ -129,8 +129,7 @@ export default function Home() {
         />
       </Head>
       <Layout>
-      <Sider>Sider</Sider>
-      <Layout>
+   
         <Content style={{ margin: '24px 16px 0' }}>
         <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
         <Banner theme={theme}>
@@ -155,7 +154,7 @@ export default function Home() {
         </div>
       </Content>
       <Footer style={{ textAlign: 'center',color:'white' }}>Ant Design ©2018 Created by Ant UED</Footer>
-      </Layout>
+      
     </Layout>
     </>
   );
