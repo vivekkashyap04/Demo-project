@@ -1,0 +1,59 @@
+.controls {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  font-size: 15px;
+  &_filters {
+    position: absolute;
+    width: 184px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: none;
+    background: white;
+    span {
+      margin-right: 20px;
+      cursor: pointer;
+    }
+    span:last-of-type {
+      margin-right: 0;
+    }
+    @media (max-width: 620px) {
+      position: absolute;
+      width: 100%;
+      top: 80px;
+      left: 0;
+      border-radius: 5px;
+      background: white;
+      text-align: center;
+      padding: 20px;
+      box-shadow: var(--lightShadow);
+      &.darkmode {
+        box-shadow: var(--darkShadow);
+      }
+    }
+  }
+  &_clearCompleted {
+    cursor: pointer;
+  }
+}
+
+.activeFilter {
+  color: var(--BrightBlue);
+  font-weight: 700;
+}
+
+.controls.darkmode {
+  background: var(--VeryDarkDesaturatedBlue);
+  color: var(--DarkGrayishBlue);
+}
+
+.controls_filters.darkmode {
+  background: var(--VeryDarkDesaturatedBlue);
+  color: var(--DarkGrayishBlue);
+}

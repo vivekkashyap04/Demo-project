@@ -1,0 +1,42 @@
+:root {
+  @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
+  /* ### Primary */
+  --BrightBlue: hsl(220, 98%, 61%);
+  --CheckBackground: hsl(192, 100%, 67%), hsl(280, 87%, 65%);
+  /* ### Neutral */
+
+  /* ### Light Theme */
+  --lightShadow: 0 10px 20px rgb(219, 219, 219);
+  /* ### Dark Theme */
+  --VeryDarkBlue: hsl(235, 21%, 11%);
+  --VeryDarkDesaturatedBlue: hsl(235, 24%, 19%);
+  --LightGrayishBlue: hsl(234, 39%, 85%);
+  --DarkGrayishBlue: hsl(234, 11%, 52%);
+  --VeryDarkGrayishBlue: hsl(234, 13%, 28%);
+  --darkShadow: 0 0 30px rgb(26, 26, 26);
+  --desktopContainer: 550px;
+
+  --VeryLightGray: rgb(247, 247, 247);
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Josefin Sans", sans-serif;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  transition: box-shadow 300ms, border 300ms, background 300ms;
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

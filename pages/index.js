@@ -1,41 +1,162 @@
-import Head from 'next/head'
 import { useState, useEffect } from "react";
+import Banner from "../components/Banner";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import TodosContainer from "../containers/TodosContainer";
+import Head from "next/head";
 import { Layout } from 'antd';
-import Image from 'next/image'
-import styles from '../styles/Home.module.css';
-import Header from '../component/header';
-import Demo from '../component/Todo';
 
 export default function Home() {
-  const { Header, Footer, Sider, Content } = Layout;
+  const {  Footer, Sider, Content } = Layout;
   const [todoArray, setTodoArray] = useState([]);
+  const [input, setInput] = useState("");
+  const [filter, setFilter] = useState("All");
+  const [theme, setTheme] = useState("dark");
+  const [toggleInitializeData, setToggleInitializeData] = useState(false);
+
   useEffect(() => {
-    setTodoArray(JSON.parse(localStorage.getItem("todo")));
-  },[todoArray])
-  console.log(todoArray);
+    document.documentElement.lang = "en-us";
+  }, []);
+
+  useEffect(() => {
+    document.body.style.backgroundColor =
+      theme === "light" ? "var(--VeryLightGray)" : "var(--VeryDarkBlue)";
+  }, [theme]);
+
+  useEffect(() => {
+    if (localStorage.getItem("appData") === null) {
+      localStorage.setItem(
+        "appData",
+        JSON.stringify({
+          todoArray: [
+            {
+              todo: "Complete online javascript course",
+              isChecked: true,
+              id: 0,
+            },
+            { todo: "Jog around the park 3x", isChecked: false, id: 1 },
+          ],
+          appTheme: "dark",
+        })
+      );
+    }
+    setTodoArray(JSON.parse(localStorage.getItem("appData")).todoArray);
+    setTheme(JSON.parse(localStorage.getItem("appData")).appTheme);
+  }, [toggleInitializeData]);
+
+  useEffect(() => {
+    let appData = JSON.parse(localStorage.getItem("appData"));
+    let updatedData = (appData = { ...appData, todoArray });
+    localStorage.setItem("appData", JSON.stringify(updatedData));
+  }, [todoArray]);
+
+  const handleInputChange = (e) => setInput(e.target.value);
+
+  const handleThemeChange = () => {
+    let appData = JSON.parse(localStorage.getItem("appData"));
+    if (appData.appTheme === "light") {
+      appData = { ...appData, appTheme: "dark" };
+    } else {
+      appData = { ...appData, appTheme: "light" };
+    }
+    localStorage.setItem("appData", JSON.stringify(appData));
+    setToggleInitializeData(!toggleInitializeData);
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    if (input) {
+      let appData = JSON.parse(localStorage.getItem("appData"));
+      let todoArray = appData.todoArray;
+      todoArray = [
+        ...todoArray,
+        { todo: input, isChecked: false, id: todoArray.length },
+      ];
+      let updatedData = (appData = { ...appData, todoArray });
+      localStorage.setItem("appData", JSON.stringify(updatedData));
+      setInput("");
+      setToggleInitializeData(!toggleInitializeData);
+    }
+  };
+
+  const handleCheck = (itemID) => {
+    let appData = JSON.parse(localStorage.getItem("appData"));
+    let updatedData = {
+      ...appData,
+      todoArray: appData.todoArray.map((item) => {
+        if (item.id === itemID) return { ...item, isChecked: !item.isChecked };
+        return item;
+      }),
+    };
+    localStorage.setItem("appData", JSON.stringify(updatedData));
+    setToggleInitializeData(!toggleInitializeData);
+  };
+
+  const handleDelete = (itemID) => {
+    let appData = JSON.parse(localStorage.getItem("appData"));
+    let updatedData = {
+      ...appData,
+      todoArray: appData.todoArray.filter((item) => item.id !== itemID),
+    };
+    localStorage.setItem("appData", JSON.stringify(updatedData));
+    setToggleInitializeData(!toggleInitializeData);
+  };
+
+  const handleFilterChange = (filter) => setFilter(filter);
+
+  const handleClearCompleted = () =>
+    setTodoArray(todoArray.filter((item) => !item.isChecked));
+
   return (
-    <div>
+    <>
+      <Head>
+        <title>
+          Todo app with ThemeSwitch and localStorage | Next.js and
+          react-sortablejs
+        </title>
+        <meta
+          name="keywords"
+          content="html, css, javaScript, theme, switch, nextjs, react-sortablejs, localStorage, frontend, mentor, react, todo, app,  front, end"
+        />
+        <meta
+          name="description"
+          content="This todo app was created using nextjs, sass, react-sortablejs, and localStorage. Challenge by Frontend Mentor."
+        />
+        <link
+          rel="shortcut icon"
+          type="image/jpg"
+          href="/images/favicon-32x32.png"
+        />
+      </Head>
       <Layout>
       <Sider>Sider</Sider>
       <Layout>
-      <Header className="site-layout-sub-header-background" style={{ padding: 0 ,color:'white',textAlign:'center'}}>
-        To-do-App
-        </Header>
-      <Content style={{ margin: '24px 16px 0' }}>
-        <div className="site-layout-background" style={{ padding: 24, minHeight: 760 }}>
-          <Demo />
-          {todoArray.map((item,index) => {
-            return (
-            <div key={index}>
-              <h2>{item.todo.task}</h2>
-              </div>
-            )
-          })}
+        <Content style={{ margin: '24px 16px 0' }}>
+        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+        <Banner theme={theme}>
+        <Header
+          input={input}
+          handleInputChange={handleInputChange}
+          handleAdd={handleAdd}
+          handleThemeChange={handleThemeChange}
+          theme={theme}
+        />
+      </Banner>
+      <TodosContainer
+        todoArray={todoArray}
+        setTodoArray={setTodoArray}
+        handleCheck={handleCheck}
+        handleDelete={handleDelete}
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+        handleClearCompleted={handleClearCompleted}
+        theme={theme}
+      />
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      <Footer style={{ textAlign: 'center',color:'white' }}>Ant Design ©2018 Created by Ant UED</Footer>
       </Layout>
     </Layout>
-    </div>
-  )
+    </>
+  );
 }
